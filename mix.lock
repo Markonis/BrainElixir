@@ -1,0 +1,2 @@
+%{"apex": {:hex, :apex, "0.3.7"},
+  "imagineer": {:hex, :imagineer, "0.2.1"}}

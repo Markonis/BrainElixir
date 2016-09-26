@@ -1,0 +1,2 @@
+defmodule Artist do
+end
