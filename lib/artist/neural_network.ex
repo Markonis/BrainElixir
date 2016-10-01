@@ -20,4 +20,9 @@ defmodule Artist.NeuralNetwork do
     |> Enum.chunk(2, 1)
     |> Enum.each(fn [src, dest] -> Layer.connect_to(src, dest) end)
   end
+
+  def set_inputs(network, inputs) do
+    Enum.at(network.layers, 0)
+    |> Layer.set_outputs(inputs)
+  end
 end
