@@ -4,6 +4,7 @@ defmodule Artist.NeuralNetwork.Neuron do
 
   alias Artist.NeuralNetwork.Neuron
   alias Artist.NeuralNetwork.Connection
+  alias Artist.NeuralNetwork.Sigmoid
 
   def create do
     {:ok, pid} = GenServer.start_link(__MODULE__, %Neuron{})
@@ -22,12 +23,39 @@ defmodule Artist.NeuralNetwork.Neuron do
   end
 
   def update_input(state, neuron_pid, value) do
+    update_input_conn(state, neuron_pid, value)
+    |> update_output
+  end
+
+  def update_input_conn(state, neuron_pid, value) do
     existing_conn = Map.get(state.in_conn, neuron_pid)
     new_conn = case existing_conn do
       nil -> %Connection{value: value}
       %Connection{} -> %{existing_conn | value: value}
     end
     %{state | in_conn: Map.put(state.in_conn, neuron_pid, new_conn)}
+  end
+
+  def update_output(state) do
+    output = input_sum(state)
+    |> apply_threshold(state.threshold)
+    |> apply_activation
+
+    %{state | output: output}
+  end
+
+  def input_sum(state) do
+    state.in_conn
+      |> Enum.map(fn {_pid, conn} -> conn.value * conn.weight end)
+      |> Enum.reduce(fn input, acc -> acc + input end)
+  end
+
+  def apply_threshold(value, threshold) do
+    if value > threshold, do: value, else: 0
+  end
+
+  def apply_activation(value) do
+    Sigmoid.value(value)
   end
 
   # Cast Callbacks
