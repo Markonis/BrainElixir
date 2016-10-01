@@ -25,4 +25,9 @@ defmodule Artist.NeuralNetwork do
     Enum.at(network.layers, 0)
     |> Layer.set_outputs(inputs)
   end
+
+  def get_outputs(network) do
+    Enum.at(network.layers, -1)
+    |> Layer.get_outputs
+  end
 end

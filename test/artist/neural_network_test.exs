@@ -2,6 +2,7 @@ defmodule Artist.NeuralNetworkTest do
   use ExUnit.Case
 
   alias Artist.NeuralNetwork
+  alias Artist.NeuralNetwork.Layer
 
   doctest NeuralNetwork
 
@@ -19,9 +20,7 @@ defmodule Artist.NeuralNetworkTest do
     NeuralNetwork.set_inputs(network, [1, 2, 3])
 
     first_layer = Enum.at(network.layers, 0)
-    outputs = Enum.map first_layer.neurons, fn neuron_pid ->
-      GenServer.call(neuron_pid, :get_state).output
-    end
+    outputs = Layer.get_outputs(first_layer)
 
     assert outputs == [1, 2, 3]
   end

@@ -20,4 +20,10 @@ defmodule Artist.NeuralNetwork.Layer do
       GenServer.cast(neuron_pid, {:set_output, output})
     end)
   end
+
+  def get_outputs(layer) do
+    Enum.map layer.neurons, fn neuron_pid ->
+      GenServer.call(neuron_pid, :get_state).output
+    end
+  end
 end

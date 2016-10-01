@@ -30,10 +30,17 @@ defmodule Artist.NeuralNetwork.LayerTest do
 
     :timer.sleep(10)
 
-    outputs = Enum.map layer.neurons, fn neuron_pid ->
-      GenServer.call(neuron_pid, :get_state).output
-    end
+    outputs = Layer.get_outputs(layer)
 
     assert outputs == [1, 2, 3]
+  end
+
+  test "get_outputs" do
+    layer = Layer.create(3)
+    Layer.set_outputs(layer, [4, 5, 6])
+
+    outputs = Layer.get_outputs(layer)
+
+    assert outputs == [4, 5, 6]
   end
 end
