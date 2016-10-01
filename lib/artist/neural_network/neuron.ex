@@ -30,12 +30,12 @@ defmodule Artist.NeuralNetwork.Neuron do
     %{state | in_conn: Map.put(state.in_conn, neuron_pid, new_conn)}
   end
 
+  # Cast Callbacks
+  # ================
+
   def handle_cast({:connect_to, neuron_pid}, state) do
     {:noreply, connect_to(state, neuron_pid)}
   end
-
-  # Cast Callbacks
-  # ================
 
   def handle_cast(:prop_forward, state) do
     {:noreply, prop_forward(state)}
