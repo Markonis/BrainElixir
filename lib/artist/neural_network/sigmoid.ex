@@ -4,7 +4,7 @@ defmodule Artist.NeuralNetwork.Sigmoid do
     1 / (1 + :math.pow(e, -x))
   end
 
-  def derivative(x) do
+  def deriv(x) do
     value(x) * (1 - value(x))
   end
 end
