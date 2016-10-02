@@ -75,4 +75,18 @@ defmodule Artist.NeuralNetwork.NeuronTest do
 
     assert actual == expected
   end
+
+  test "reset_weights" do
+    state = %Neuron{in_conn: %{
+      1 => %Connection{value: 0.7, weight: 0},
+      2 => %Connection{value: 0.5, weight: 0}}}
+
+    new_state = Neuron.reset_weights(state)
+
+    expected_in_conn = %{
+      1 => %Connection{value: 0.7, weight: 0.5},
+      2 => %Connection{value: 0.5, weight: 0.5}}
+
+    assert new_state.in_conn == expected_in_conn
+  end
 end

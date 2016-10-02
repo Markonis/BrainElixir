@@ -68,6 +68,14 @@ defmodule Artist.NeuralNetwork.Neuron do
     %{state | forward_err_derivs: forward_err_derivs}
   end
 
+  def reset_weights(state) do
+    weight = 1 / length(Map.values(state.in_conn))
+    in_conn = Enum.reduce state.in_conn, %{}, fn {neuron_pid, conn}, acc ->
+      Map.put(acc, neuron_pid, %{conn | weight: weight})
+    end
+    %{state | in_conn: in_conn}
+  end
+
   # Cast Callbacks
   # ================
 
@@ -125,6 +133,11 @@ defmodule Artist.NeuralNetwork.Neuron do
 
   def handle_call({:update_forward_err_deriv, neuron_pid, err_deriv}, _from, state) do
     new_state = update_forward_err_deriv(state, neuron_pid, err_deriv)
+    {:reply, new_state, new_state}
+  end
+
+  def handle_call(:reset_weights, _from, state) do
+    new_state = reset_weights(state)
     {:reply, new_state, new_state}
   end
 end
