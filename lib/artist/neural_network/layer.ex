@@ -53,4 +53,11 @@ defmodule Artist.NeuralNetwork.Layer do
       GenServer.call(neuron_pid, {:prop_backward, target_output})
     end)
   end
+
+  def adjust_weights(layer, target_outputs) do
+    List.zip([layer.neurons, target_outputs])
+    |> Enum.each(fn {neuron_pid, target_output} ->
+      GenServer.call(neuron_pid, {:adjust_weights, target_output})
+    end)
+  end
 end
