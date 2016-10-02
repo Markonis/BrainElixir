@@ -34,4 +34,13 @@ defmodule Artist.NeuralNetworkTest do
 
     assert_in_delta output, 0.6750375273768237, 0.001
   end
+
+  test "prop_backward" do
+    network = NeuralNetwork.create([3, 2, 1])
+    |> NeuralNetwork.set_inputs([1, 1, 1])
+    |> NeuralNetwork.prop_forward
+    |> NeuralNetwork.prop_backward([0.8])
+
+    assert network != nil
+  end
 end

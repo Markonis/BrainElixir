@@ -42,4 +42,12 @@ defmodule Artist.NeuralNetwork do
     end)
     network
   end
+
+  def prop_backward(network, target_outputs) do
+    Enum.reverse(network.layers)
+    |> Enum.each(fn layer ->
+      Layer.prop_backward(layer, target_outputs)
+    end)
+    network
+  end
 end
