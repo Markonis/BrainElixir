@@ -25,10 +25,10 @@ defmodule Artist.NeuralNetworkTest do
     assert outputs == [1, 2, 3]
   end
 
-  test "update_outputs" do
+  test "prop_forward" do
     output = NeuralNetwork.create([3, 2, 1])
     |> NeuralNetwork.set_inputs([1, 1, 1])
-    |> NeuralNetwork.update_outputs
+    |> NeuralNetwork.prop_forward
     |> NeuralNetwork.get_outputs
     |> Enum.at(0)
 
