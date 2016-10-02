@@ -24,4 +24,14 @@ defmodule Artist.NeuralNetworkTest do
 
     assert outputs == [1, 2, 3]
   end
+
+  test "update_outputs" do
+    output = NeuralNetwork.create([3, 2, 1])
+    |> NeuralNetwork.set_inputs([1, 1, 1])
+    |> NeuralNetwork.update_outputs
+    |> NeuralNetwork.get_outputs
+    |> Enum.at(0)
+
+    assert_in_delta output, 0.6750375273768237, 0.001
+  end
 end

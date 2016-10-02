@@ -30,4 +30,16 @@ defmodule Artist.NeuralNetwork do
   def get_outputs(network) do
     Enum.at(network.layers, -1) |> Layer.get_outputs
   end
+
+  def update_outputs(network) do
+    Enum.at(network.layers, 0)
+    |> Layer.prop_forward
+
+    Enum.drop(network.layers, 1)
+    |> Enum.each(fn layer ->
+      Layer.update_outputs(layer)
+      Layer.prop_forward(layer)
+    end)
+    network
+  end
 end
