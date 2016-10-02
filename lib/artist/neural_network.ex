@@ -24,10 +24,10 @@ defmodule Artist.NeuralNetwork do
   def set_inputs(network, inputs) do
     Enum.at(network.layers, 0)
     |> Layer.set_outputs(inputs)
+    network
   end
 
   def get_outputs(network) do
-    Enum.at(network.layers, -1)
-    |> Layer.get_outputs
+    Enum.at(network.layers, -1) |> Layer.get_outputs
   end
 end
