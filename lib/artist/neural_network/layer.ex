@@ -8,9 +8,17 @@ defmodule Artist.NeuralNetwork.Layer do
     %Layer{neurons: neurons}
   end
 
-  def connect_to(src, dest) do
+  def connect(src, dest) do
     for src_pid <- src.neurons, dest_pid <- dest.neurons do
       GenServer.call(src_pid, {:connect_to, dest_pid})
+      GenServer.call(dest_pid, {:update_input, src_pid, 0})
+    end
+    reset_weights(dest)
+  end
+
+  def reset_weights(layer) do
+    Enum.each layer.neurons, fn neuron_pid ->
+      GenServer.call(neuron_pid, :reset_weights)
     end
   end
 

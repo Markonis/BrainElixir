@@ -10,10 +10,10 @@ defmodule Artist.NeuralNetwork.LayerTest do
     assert length(layer.neurons) == 10
   end
 
-  test "connect_to" do
+  test "connect" do
     src_layer = Layer.create(10)
     dest_layer = Layer.create(2)
-    Layer.connect_to(src_layer, dest_layer)
+    Layer.connect(src_layer, dest_layer)
 
     first_pid = src_layer.neurons |> Enum.at(0)
     first_state = GenServer.call(first_pid, :get_state)
