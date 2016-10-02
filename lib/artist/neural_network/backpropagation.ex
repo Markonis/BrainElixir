@@ -28,12 +28,11 @@ defmodule Artist.NeuralNetwork.Backpropagation do
     end
   end
 
-  def backward_output_err_deriv(neuron_state, input_neuron_pid, target_output) do
+  def backward_output_err_deriv(neuron_state, target_output) do
     total_output_err_deriv  = total_output_err_deriv(neuron_state, target_output)
     input_output_deriv      = input_output_deriv(neuron_state)
-    input_weight            = Map.get(neuron_state.in_conn, input_neuron_pid).weight
 
-    total_output_err_deriv * input_output_deriv * input_weight
+    total_output_err_deriv * input_output_deriv
   end
 
   def input_output_deriv(neuron_state) do
