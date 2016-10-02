@@ -1,5 +1,9 @@
 defmodule Artist.NeuralNetwork.Neuron do
-  defstruct in_conn: %{}, out_conn: [], threshold: 0.5, output: 0
+
+  defstruct in_conn: %{}, out_conn: [],
+            threshold: 0.5, output: 0,
+            forward_err_derivs: %{}
+
   use GenServer
 
   alias Artist.NeuralNetwork.Neuron
