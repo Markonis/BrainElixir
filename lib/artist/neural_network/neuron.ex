@@ -86,6 +86,19 @@ defmodule Artist.NeuralNetwork.Neuron do
     state
   end
 
+  def adjust_weights(state, target_output) do
+    in_conn = Enum.reduce state.in_conn, %{}, fn {input_neuron_pid, conn}, acc ->
+      weight_adjustment = Backpropagation.weight_adjustment(
+        state, input_neuron_pid, target_output)
+
+      weight = conn.weight - weight_adjustment
+
+      Map.put(acc, input_neuron_pid, %{conn | weight: weight})
+    end
+
+    %{state | in_conn: in_conn}
+  end
+
   # Cast Callbacks
   # ================
 
@@ -153,6 +166,11 @@ defmodule Artist.NeuralNetwork.Neuron do
 
   def handle_call({:prop_backward, target_output}, _from, state) do
     new_state = prop_backward(state, target_output)
+    {:reply, new_state, new_state}
+  end
+
+  def handle_call({:adjust_weights, target_output}, _from, state) do
+    new_state = adjust_weights(state, target_output)
     {:reply, new_state, new_state}
   end
 end

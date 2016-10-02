@@ -106,4 +106,22 @@ defmodule Artist.NeuralNetwork.NeuronTest do
 
     assert length(Map.values(source_state.forward_err_derivs)) == 1
   end
+
+  test "adjust_weights" do
+    source_pid = Neuron.create
+    dest_pid = Neuron.create
+
+    GenServer.call(source_pid, {:connect_to, dest_pid})
+    GenServer.call(source_pid, {:set_output, 1})
+    GenServer.call(source_pid, :prop_forward)
+    GenServer.call(dest_pid, :reset_weights)
+    GenServer.call(dest_pid, :update_output)
+
+    GenServer.call(dest_pid, {:prop_backward, 0.8})
+    GenServer.call(source_pid, {:adjust_weights, 0.8})
+    GenServer.call(dest_pid, {:adjust_weights, 0.8})
+
+    source_state = GenServer.call(source_pid, :get_state)
+    dest_state = GenServer.call(dest_pid, :get_state)
+  end
 end
