@@ -72,7 +72,7 @@ defmodule Artist.NeuralNetwork.Neuron do
   end
 
   def prop_backward(state, target_output) do
-    Enum.each state.in_conn, fn {neuron_pid, conn} ->
+    Enum.each state.in_conn, fn {neuron_pid, _conn} ->
       err_deriv = Backpropagation.backward_output_err_deriv(
         state, neuron_pid, target_output)
       GenServer.call(neuron_pid, {:update_forward_err_deriv, self, err_deriv})
