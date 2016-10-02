@@ -1,7 +1,6 @@
 defmodule Artist.NeuralNetwork.LayerTest do
   use ExUnit.Case
 
-  alias Artist.NeuralNetwork.Neuron
   alias Artist.NeuralNetwork.Layer
 
   doctest Layer
