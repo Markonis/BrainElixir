@@ -9,6 +9,7 @@ defmodule Artist.NeuralNetwork.Neuron do
   alias Artist.NeuralNetwork.Neuron
   alias Artist.NeuralNetwork.Connection
   alias Artist.NeuralNetwork.Sigmoid
+  alias Artist.NeuralNetwork.Backpropagation
 
   def create do
     {:ok, pid} = GenServer.start_link(__MODULE__, %Neuron{})
@@ -76,6 +77,15 @@ defmodule Artist.NeuralNetwork.Neuron do
     %{state | in_conn: in_conn}
   end
 
+  def prop_backward(state, target_output) do
+    Enum.each state.in_conn, fn {neuron_pid, conn} ->
+      err_deriv = Backpropagation.backward_output_err_deriv(
+        state, neuron_pid, target_output)
+      GenServer.call(neuron_pid, {:update_forward_err_deriv, self, err_deriv})
+    end
+    state
+  end
+
   # Cast Callbacks
   # ================
 
@@ -138,6 +148,11 @@ defmodule Artist.NeuralNetwork.Neuron do
 
   def handle_call(:reset_weights, _from, state) do
     new_state = reset_weights(state)
+    {:reply, new_state, new_state}
+  end
+
+  def handle_call({:prop_backward, target_output}, _from, state) do
+    new_state = prop_backward(state, target_output)
     {:reply, new_state, new_state}
   end
 end

@@ -89,4 +89,21 @@ defmodule Artist.NeuralNetwork.NeuronTest do
 
     assert new_state.in_conn == expected_in_conn
   end
+
+  test "prop_backward" do
+    source_pid = Neuron.create
+    dest_pid = Neuron.create
+
+    GenServer.call(source_pid, {:connect_to, dest_pid})
+    GenServer.call(source_pid, {:set_output, 1})
+    GenServer.call(source_pid, :prop_forward)
+    GenServer.call(dest_pid, :reset_weights)
+    GenServer.call(dest_pid, :update_output)
+
+    GenServer.call(dest_pid, {:prop_backward, 0.8})
+
+    source_state = GenServer.call(source_pid, :get_state)
+
+    assert length(Map.values(source_state.forward_err_derivs)) == 1
+  end
 end
