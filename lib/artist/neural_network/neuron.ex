@@ -51,7 +51,7 @@ defmodule Artist.NeuralNetwork.Neuron do
   def input_sum(state) do
     state.in_conn
       |> Enum.map(fn {_pid, conn} -> conn.value * conn.weight end)
-      |> Enum.reduce(fn input, acc -> acc + input end)
+      |> Enum.sum
   end
 
   def apply_threshold(value, threshold) do
