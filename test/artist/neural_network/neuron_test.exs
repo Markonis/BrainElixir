@@ -53,11 +53,9 @@ defmodule Artist.NeuralNetwork.NeuronTest do
     source_pid = Neuron.create
     dest_pid = Neuron.create
 
-    GenServer.cast(source_pid, {:connect_to, dest_pid})
-    GenServer.cast(source_pid, {:set_output, 1})
-    GenServer.cast(source_pid, :prop_forward)
-
-    :timer.sleep(10) # Allow for the casts to be processed
+    GenServer.call(source_pid, {:connect_to, dest_pid})
+    GenServer.call(source_pid, {:set_output, 1})
+    GenServer.call(source_pid, :prop_forward)
 
     dest_state = GenServer.call(dest_pid, :get_state)
     in_conn = dest_state.in_conn

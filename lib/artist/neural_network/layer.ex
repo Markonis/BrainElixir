@@ -10,14 +10,14 @@ defmodule Artist.NeuralNetwork.Layer do
 
   def connect_to(src, dest) do
     for src_pid <- src.neurons, dest_pid <- dest.neurons do
-      GenServer.cast(src_pid, {:connect_to, dest_pid})
+      GenServer.call(src_pid, {:connect_to, dest_pid})
     end
   end
 
   def set_outputs(layer, outputs) do
     List.zip([layer.neurons, outputs])
     |> Enum.each(fn {neuron_pid, output} ->
-      GenServer.cast(neuron_pid, {:set_output, output})
+      GenServer.call(neuron_pid, {:set_output, output})
     end)
   end
 

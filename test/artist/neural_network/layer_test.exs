@@ -15,8 +15,6 @@ defmodule Artist.NeuralNetwork.LayerTest do
     dest_layer = Layer.create(2)
     Layer.connect_to(src_layer, dest_layer)
 
-    :timer.sleep(10)
-
     first_pid = src_layer.neurons |> Enum.at(0)
     first_state = GenServer.call(first_pid, :get_state)
 
@@ -26,8 +24,6 @@ defmodule Artist.NeuralNetwork.LayerTest do
   test "set_outputs" do
     layer = Layer.create(3)
     Layer.set_outputs(layer, [1, 2, 3])
-
-    :timer.sleep(10)
 
     outputs = Layer.get_outputs(layer)
 
