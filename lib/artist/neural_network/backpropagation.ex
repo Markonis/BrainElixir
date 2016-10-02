@@ -20,7 +20,7 @@ defmodule Artist.NeuralNetwork.Backpropagation do
     if length(neuron_state.out_conn) == 0 do
       # If the neuron does not have output connections, this means
       # that it is an output neuron
-      target_output - neuron_state.output
+      neuron_state.output - target_output
     else
       # If the neuron has output connections, this means that the
       # it is a hidden layer neuron

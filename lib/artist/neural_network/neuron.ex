@@ -85,7 +85,7 @@ defmodule Artist.NeuralNetwork.Neuron do
       weight_adjustment = Backpropagation.weight_adjustment(
         state, input_neuron_pid, target_output)
 
-      weight = conn.weight - weight_adjustment
+      weight = conn.weight + weight_adjustment
 
       Map.put(acc, input_neuron_pid, %{conn | weight: weight})
     end
