@@ -28,7 +28,6 @@ defmodule Artist.NeuralNetwork.Neuron do
 
   def update_input(state, neuron_pid, value) do
     update_input_conn(state, neuron_pid, value)
-    |> update_output
   end
 
   def update_input_conn(state, neuron_pid, value) do
