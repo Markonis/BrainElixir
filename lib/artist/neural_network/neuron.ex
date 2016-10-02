@@ -98,4 +98,29 @@ defmodule Artist.NeuralNetwork.Neuron do
   def handle_call(:get_state, _from, state) do
     {:reply, state, state}
   end
+
+  def handle_call({:connect_to, neuron_pid}, _from, state) do
+    new_state = connect_to(state, neuron_pid)
+    {:reply, new_state, new_state}
+  end
+
+  def handle_call(:prop_forward, _from, state) do
+    new_state = prop_forward(state)
+    {:reply, new_state, new_state}
+  end
+
+  def handle_call({:update_input, neuron_pid, conn}, _from, state) do
+    new_state = update_input(state, neuron_pid, conn)
+    {:reply, new_state, new_state}
+  end
+
+  def handle_call({:set_output, output}, _from, state) do
+    new_state = %{state | output: output}
+    {:reply, new_state, new_state}
+  end
+
+  def handle_call({:update_forward_err_deriv, neuron_pid, err_deriv}, _from, state) do
+    new_state = update_forward_err_deriv(state, neuron_pid, err_deriv)
+    {:reply, new_state, new_state}
+  end
 end
