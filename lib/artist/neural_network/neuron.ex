@@ -21,7 +21,7 @@ defmodule Artist.NeuralNetwork.Neuron do
 
   def prop_forward(state) do
     Enum.each state.out_conn, fn dest_pid ->
-      GenServer.cast(dest_pid, {:update_input, self, state.output})
+      GenServer.call(dest_pid, {:update_input, self, state.output})
     end
     state
   end
