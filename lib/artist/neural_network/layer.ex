@@ -26,4 +26,16 @@ defmodule Artist.NeuralNetwork.Layer do
       GenServer.call(neuron_pid, :get_state).output
     end
   end
+
+  def prop_forward(layer) do
+    Enum.each layer.neurons fn neuron_pid ->
+      GenServer.call(neuron_pid, :prop_forward)
+    end
+  end
+
+  def update_outputs(layer) do
+    Enum.each layer.neurons fn neuron_pid ->
+      GenServer.call(neuron_pid, :update_output)
+    end
+  end
 end

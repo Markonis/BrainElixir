@@ -113,6 +113,11 @@ defmodule Artist.NeuralNetwork.Neuron do
     {:reply, new_state, new_state}
   end
 
+  def handle_call(:update_output, _from, state) do
+    new_state = update_output(state)
+    {:reply, new_state, new_state}
+  end
+
   def handle_call({:set_output, output}, _from, state) do
     new_state = %{state | output: output}
     {:reply, new_state, new_state}
