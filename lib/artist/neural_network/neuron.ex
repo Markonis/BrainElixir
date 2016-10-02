@@ -116,8 +116,8 @@ defmodule Artist.NeuralNetwork.Neuron do
     {:reply, new_state, new_state}
   end
 
-  def handle_call({:update_input, neuron_pid, conn}, _from, state) do
-    new_state = update_input(state, neuron_pid, conn)
+  def handle_call({:update_input, neuron_pid, value}, _from, state) do
+    new_state = update_input(state, neuron_pid, value)
     {:reply, new_state, new_state}
   end
 
