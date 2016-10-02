@@ -50,4 +50,25 @@ defmodule Artist.NeuralNetwork do
     end)
     network
   end
+
+  def adjust_weights(network, target_outputs) do
+    Enum.reverse(network.layers)
+    |> Enum.each(fn layer ->
+      Layer.adjust_weights(layer, target_outputs)
+    end)
+    network
+  end
+
+  def process(network, inputs) do
+    NeuralNetwork.set_inputs(network, inputs)
+    |> NeuralNetwork.prop_forward
+    |> NeuralNetwork.get_outputs
+  end
+
+  def train(network, inputs, target_outputs) do
+    NeuralNetwork.set_inputs(network, inputs)
+    |> NeuralNetwork.prop_forward
+    |> NeuralNetwork.prop_backward(target_outputs)
+    |> NeuralNetwork.adjust_weights(target_outputs)
+  end
 end
