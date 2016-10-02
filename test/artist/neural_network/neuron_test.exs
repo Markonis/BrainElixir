@@ -65,4 +65,16 @@ defmodule Artist.NeuralNetwork.NeuronTest do
 
     assert in_conn == expected_in_conn
   end
+
+  test "update_forward_err_deriv" do
+    state = %Neuron{forward_err_derivs: %{123 => 0.6}}
+    new_state = state
+    |> Neuron.update_forward_err_deriv(123, 0.7)
+    |> Neuron.update_forward_err_deriv(456, 1)
+
+    expected = %{123 => 0.7, 456 => 1}
+    actual = new_state.forward_err_derivs
+
+    assert actual == expected
+  end
 end

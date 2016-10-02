@@ -62,6 +62,13 @@ defmodule Artist.NeuralNetwork.Neuron do
     Sigmoid.value(value)
   end
 
+  def update_forward_err_deriv(state, neuron_pid, err_deriv) do
+    forward_err_derivs = Map.put(
+      state.forward_err_derivs, neuron_pid, err_deriv)
+
+    %{state | forward_err_derivs: forward_err_derivs}
+  end
+
   # Cast Callbacks
   # ================
 
@@ -79,6 +86,10 @@ defmodule Artist.NeuralNetwork.Neuron do
 
   def handle_cast({:set_output, output}, state) do
     {:noreply, %{state | output: output}}
+  end
+
+  def handle_cast({:update_forward_err_deriv, neuron_pid, err_deriv}, state) do
+    {:noreply, update_forward_err_deriv(state, neuron_pid, err_deriv)}
   end
 
   # Call Callbacks
