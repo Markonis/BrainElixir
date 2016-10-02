@@ -1,8 +1,7 @@
 defmodule Artist.NeuralNetwork.Neuron do
 
   defstruct in_conn: %{}, out_conn: [],
-            threshold: 0.5, output: 0,
-            forward_err_derivs: %{}
+            output: 0, forward_err_derivs: %{}
 
   use GenServer
 
@@ -42,7 +41,6 @@ defmodule Artist.NeuralNetwork.Neuron do
 
   def update_output(state) do
     output = input_sum(state)
-    |> apply_threshold(state.threshold)
     |> apply_activation
 
     %{state | output: output}
@@ -52,10 +50,6 @@ defmodule Artist.NeuralNetwork.Neuron do
     state.in_conn
       |> Enum.map(fn {_pid, conn} -> conn.value * conn.weight end)
       |> Enum.sum
-  end
-
-  def apply_threshold(value, threshold) do
-    if value > threshold, do: value, else: 0
   end
 
   def apply_activation(value) do
