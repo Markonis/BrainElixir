@@ -1,14 +1,14 @@
-defmodule Artist.NeuralNetwork.Neuron do
+defmodule NeuralNetwork.Neuron do
 
   defstruct in_conn: %{}, out_conn: [],
             output: 0, forward_err_derivs: %{}
 
   use GenServer
 
-  alias Artist.NeuralNetwork.Neuron
-  alias Artist.NeuralNetwork.Connection
-  alias Artist.NeuralNetwork.Sigmoid
-  alias Artist.NeuralNetwork.Backpropagation
+  alias NeuralNetwork.Neuron
+  alias NeuralNetwork.Connection
+  alias NeuralNetwork.Sigmoid
+  alias NeuralNetwork.Backpropagation
 
   def create do
     {:ok, pid} = GenServer.start_link(__MODULE__, %Neuron{})

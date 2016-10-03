@@ -1,7 +1,7 @@
-defmodule Artist.NeuralNetwork.Backpropagation do
+defmodule NeuralNetwork.Backpropagation do
 
-  alias Artist.NeuralNetwork.Neuron
-  alias Artist.NeuralNetwork.Sigmoid
+  alias NeuralNetwork.Neuron
+  alias NeuralNetwork.Sigmoid
 
   @doc """
   Calculates the total derivative of the error in respect to the

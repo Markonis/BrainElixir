@@ -1,4 +1,4 @@
-defmodule Artist.NeuralNetwork.Sigmoid do
+defmodule NeuralNetwork.Sigmoid do
   def value(x) do
     e = 2.718281828459045
     1 / (1 + :math.pow(e, -x))

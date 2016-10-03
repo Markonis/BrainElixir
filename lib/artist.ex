@@ -1,7 +1,5 @@
 defmodule Artist do
 
-  alias Artist.NeuralNetwork
-
   def xor do
     network = NeuralNetwork.create([2, 4, 2, 1])
 

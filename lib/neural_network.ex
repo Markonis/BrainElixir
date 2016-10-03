@@ -1,7 +1,8 @@
-defmodule Artist.NeuralNetwork do
+defmodule NeuralNetwork do
+
   defstruct layers: []
-  alias Artist.NeuralNetwork
-  alias Artist.NeuralNetwork.Layer
+  
+  alias NeuralNetwork.Layer
 
   def create(configuration) do
     layers = create_layers(configuration)

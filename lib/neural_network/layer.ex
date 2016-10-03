@@ -1,7 +1,8 @@
-defmodule Artist.NeuralNetwork.Layer do
+defmodule NeuralNetwork.Layer do
   defstruct neurons: []
-  alias Artist.NeuralNetwork.Layer
-  alias Artist.NeuralNetwork.Neuron
+
+  alias NeuralNetwork.Layer
+  alias NeuralNetwork.Neuron
 
   def create(num) do
     neurons = 1..num |> Enum.map(fn _ -> Neuron.create end)

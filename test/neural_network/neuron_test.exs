@@ -1,9 +1,9 @@
-defmodule Artist.NeuralNetwork.NeuronTest do
+defmodule NeuralNetwork.NeuronTest do
   use ExUnit.Case
 
-  alias Artist.NeuralNetwork.Neuron
-  alias Artist.NeuralNetwork.Connection
-  alias Artist.NeuralNetwork.Sigmoid
+  alias NeuralNetwork.Neuron
+  alias NeuralNetwork.Connection
+  alias NeuralNetwork.Sigmoid
 
   doctest Neuron
 
