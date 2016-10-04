@@ -121,7 +121,8 @@ defmodule NeuralNetwork.NeuronTest do
     GenServer.call(source_pid, {:adjust_weights, 0.8})
     GenServer.call(dest_pid, {:adjust_weights, 0.8})
 
-    source_state = GenServer.call(source_pid, :get_state)
-    dest_state = GenServer.call(dest_pid, :get_state)
+    # source_state = GenServer.call(source_pid, :get_state)
+    # dest_state = GenServer.call(dest_pid, :get_state)
+    # TODO: Implement assertions
   end
 end
