@@ -105,6 +105,21 @@ defmodule NeuralNetwork.Neuron do
     %{state | in_conn: in_conn}
   end
 
+  def get_in_conn(state) do
+    state.in_conn
+    |> Map.values
+    |> Enum.sort_by(fn conn -> conn.index end)
+  end
+
+  def set_in_conn(state, conn_list) do
+    new_in_conn = Enum.reduce conn_list, state.in_conn, fn conn, map ->
+      Util.replace_in_map map, conn, fn (new_conn, old_conn) ->
+        new_conn.index == old_conn.index
+      end
+    end
+    %{state | in_conn: new_in_conn}
+  end
+
   # Cast Callbacks
   # ================
 

@@ -128,4 +128,41 @@ defmodule NeuralNetwork.NeuronTest do
     # dest_state = GenServer.call(dest_pid, :get_state)
     # TODO: Implement assertions
   end
+
+  test "get_in_conn" do
+    state = %Neuron{in_conn: %{
+      1 => %Connection{value: 0.7, weight: 0.2, index: 1},
+      2 => %Connection{value: 0.5, weight: 0.8, index: 0}}}
+
+    in_conn = Neuron.get_in_conn(state)
+
+    expected = [
+      %Connection{value: 0.5, weight: 0.8, index: 0},
+      %Connection{value: 0.7, weight: 0.2, index: 1}
+    ]
+
+    assert in_conn == expected
+  end
+
+  test "set_in_conn" do
+    state = %Neuron{in_conn: %{
+      1 => %Connection{value: 0, weight: 0.5, index: 1},
+      2 => %Connection{value: 0, weight: 0.5, index: 0}}}
+
+    conn_list = [
+      %Connection{value: 0.7, weight: 0.8, index: 1},
+      %Connection{value: 0.6, weight: 0.2, index: 0}
+    ]
+
+    expected = [
+      %Connection{value: 0.6, weight: 0.2, index: 0},
+      %Connection{value: 0.7, weight: 0.8, index: 1}
+    ]
+
+    in_conn = state
+    |> Neuron.set_in_conn(conn_list)
+    |> Neuron.get_in_conn
+
+    assert in_conn == expected
+  end
 end
