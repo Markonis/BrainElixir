@@ -60,4 +60,17 @@ defmodule NeuralNetwork.Layer do
       GenServer.call(neuron_pid, {:adjust_weights, target_output})
     end)
   end
+
+  def get_in_conns(layer) do
+    Enum.map layer.neurons, fn neuron_pid ->
+      GenServer.call(neuron_pid, :get_in_conn)
+    end
+  end
+
+  def set_in_conns(layer, in_conns) do
+    List.zip([layer.neurons, in_conns])
+    |> Parallel.each(fn {neuron_pid, conn_list} ->
+      GenServer.call(neuron_pid, {:set_in_conn, conn_list})
+    end)
+  end
 end
