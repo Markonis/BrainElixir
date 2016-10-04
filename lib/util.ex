@@ -6,8 +6,8 @@ defmodule Util do
     enumerable
     |> Enum.flat_map(fn row -> chunk_with_index(row, Keyword.get(options, :width)) end)
     |> Enum.group_by(
-      fn {pixels, index} -> index end,
-      fn {pixels, index} -> pixels end)
+      fn {elements, index} -> index end,
+      fn {elements, index} -> elements end)
     |> Map.values
     |> Enum.flat_map(fn column -> Enum.chunk(column, Keyword.get(options, :height)) end)
   end
