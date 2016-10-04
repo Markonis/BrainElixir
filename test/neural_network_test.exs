@@ -1,4 +1,4 @@
-defmodule Artist.NeuralNetworkTest do
+defmodule NeuralNetworkTest do
   use ExUnit.Case
 
   alias NeuralNetwork.Layer

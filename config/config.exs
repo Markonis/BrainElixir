@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :artist, key: :value
+#     config :brain_elixir, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:artist, :key)
+#     Application.get_env(:brain_elixir, :key)
 #
 # Or configure a 3rd-party app:
 #
