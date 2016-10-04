@@ -42,4 +42,14 @@ defmodule NeuralNetworkTest do
 
     assert network != nil
   end
+
+  test "serialize and deserialize" do
+    network1  = NeuralNetwork.create([4,8,2])
+    data1     = NeuralNetwork.serialize(network1)
+
+    network2  = NeuralNetwork.deserialize(data1)
+    data2     = NeuralNetwork.serialize(network2)
+
+    assert data1 == data2
+  end
 end

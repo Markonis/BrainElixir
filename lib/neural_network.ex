@@ -1,7 +1,7 @@
 defmodule NeuralNetwork do
 
   defstruct layers: []
-  
+
   alias NeuralNetwork.Layer
 
   def create(configuration) do
@@ -58,6 +58,38 @@ defmodule NeuralNetwork do
       Layer.adjust_weights(layer, target_outputs)
     end)
     network
+  end
+
+  def get_configuration(network) do
+    Enum.map network.layers, fn layer ->
+      length(layer.neurons)
+    end
+  end
+
+  def get_in_conns(network) do
+    Enum.map network.layers, fn layer ->
+      Layer.get_in_conns(layer)
+    end
+  end
+
+  def set_in_conns(network, in_conns) do
+    List.zip([network.layers, in_conns])
+    |> Enum.each(fn {layer, layer_in_conns} ->
+      Layer.set_in_conns(layer, layer_in_conns)
+    end)
+    network
+  end
+
+  def serialize(network) do
+    %{
+      configuration: get_configuration(network),
+      in_conns: get_in_conns(network)
+    }
+  end
+
+  def deserialize(data) do
+    NeuralNetwork.create(data.configuration)
+    |> NeuralNetwork.set_in_conns(data.in_conns)
   end
 
   def process(network, inputs) do
