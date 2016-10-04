@@ -7,22 +7,25 @@ defmodule NeuralNetwork.NeuronTest do
 
   doctest Neuron
 
-  test "connect_to" do
+  test "add_out_conn" do
     state = %Neuron{}
-
-    new_state = Neuron.connect_to(state, 123)
-
+    new_state = Neuron.add_out_conn(state, 123)
     expected_state = %Neuron{out_conn: [123]}
     assert new_state == expected_state
   end
 
   test "update_input_conn" do
-    state = %Neuron{in_conn: %{123 => %Connection{}}}
+    state = %Neuron{}
 
-    new_state = Neuron.update_input_conn(state, 123, 1)
+    new_state = state
+    |> Neuron.update_input_conn(123, 1)
+    |> Neuron.update_input_conn(345, 1)
+
     new_in_conn = new_state.in_conn
 
-    expected_in_conn = %{123 => %Connection{value: 1}}
+    expected_in_conn = %{
+      123 => %Connection{value: 1, index: 0},
+      345 => %Connection{value: 1, index: 1}}
 
     assert new_in_conn == expected_in_conn
   end

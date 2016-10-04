@@ -1,5 +1,4 @@
 defmodule NeuralNetwork.Neuron do
-
   defstruct in_conn: %{}, out_conn: [],
             output: 0, forward_err_derivs: %{}
 
@@ -16,6 +15,11 @@ defmodule NeuralNetwork.Neuron do
   end
 
   def connect_to(state, neuron_pid) do
+    GenServer.call(neuron_pid, {:update_input, self, 0})
+    add_out_conn(state, neuron_pid)
+  end
+
+  def add_out_conn(state, neuron_pid) do
     %{state | out_conn: [neuron_pid | state.out_conn]}
   end
 
@@ -33,10 +37,14 @@ defmodule NeuralNetwork.Neuron do
   def update_input_conn(state, neuron_pid, value) do
     existing_conn = Map.get(state.in_conn, neuron_pid)
     new_conn = case existing_conn do
-      nil -> %Connection{value: value}
+      nil -> %Connection{value: value, index: new_in_conn_index(state)}
       %Connection{} -> %{existing_conn | value: value}
     end
     %{state | in_conn: Map.put(state.in_conn, neuron_pid, new_conn)}
+  end
+
+  def new_in_conn_index(state) do
+    Map.keys(state.in_conn) |> length
   end
 
   def update_output(state) do

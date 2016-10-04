@@ -12,7 +12,6 @@ defmodule NeuralNetwork.Layer do
   def connect(src, dest) do
     for src_pid <- src.neurons, dest_pid <- dest.neurons do
       GenServer.call(src_pid, {:connect_to, dest_pid})
-      GenServer.call(dest_pid, {:update_input, src_pid, 0})
     end
     reset_weights(dest)
   end
