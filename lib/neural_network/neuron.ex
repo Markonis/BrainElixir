@@ -194,4 +194,13 @@ defmodule NeuralNetwork.Neuron do
     new_state = adjust_weights(state, target_output)
     {:reply, new_state, new_state}
   end
+
+  def handle_call(:get_in_conn, _from, state) do
+    {:reply, get_in_conn(state), state}
+  end
+
+  def handle_call({:set_in_conn, conn_list}, _from, state) do
+    new_state = set_in_conn(state, conn_list)
+    {:reply, new_state, new_state}
+  end
 end
