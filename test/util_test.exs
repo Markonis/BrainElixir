@@ -23,4 +23,26 @@ defmodule UtilTest do
     result = Util.chunk_2d(enumerable, width: 2, height: 2)
     assert result == expected
   end
+
+  test "replace_in_map" do
+    map = %{
+      a: %{x: 1, y: 10},
+      b: %{x: 2, y: 10},
+      c: %{x: 3, y: 10}
+    }
+
+    element = %{x: 2, y: 20}
+
+    expected = %{
+      a: %{x: 1, y: 10},
+      b: %{x: 2, y: 20},
+      c: %{x: 3, y: 10}
+    }
+
+    result = Util.replace_in_map map, element, fn (a, b) ->
+      a.x == b.x
+    end
+
+    assert result == expected
+  end
 end
