@@ -27,6 +27,9 @@ defmodule BrainElixir.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:imagineer, "~> 0.2.1"}]
+    [
+      {:imagineer, "~> 0.2.1"},
+      {:poison, "~> 3.0"}
+    ]
   end
 end
