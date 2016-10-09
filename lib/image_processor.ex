@@ -12,8 +12,16 @@ defmodule ImageProcessor do
   end
 
   def to_grayscale(pixels) do
-    Enum.map pixels, fn {r, g, b, _a} ->
-      (r + g + b) / 3
+    Enum.map pixels, fn
+      {r, g, b, _a} -> (r + g + b) / 3
+      {r, g, b}     -> (r + g + b) / 3
+    end
+  end
+
+  def flatten_pixels(pixels) do
+    Enum.flat_map pixels, fn
+      {r, g, b} -> [r, g, b]
+      {r, g, b, a} -> [r, g, b, a]
     end
   end
 
