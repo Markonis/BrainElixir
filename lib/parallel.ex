@@ -1,27 +1,40 @@
 defmodule Parallel do
   def map(enumerable, fun) do
-    parent = self
+    parent      = self
+    chunk_size  = chunk_size(enumerable)
+
     enumerable
-    |> Enum.map(fn item ->
-      spawn fn -> send(parent, {self, fun.(item)}) end
+    |> Enum.chunk(chunk_size, chunk_size, [])
+    |> Enum.map(fn chunk ->
+      spawn fn -> map_chunk(parent, chunk, fun) end
     end)
-    |> Enum.map(fn pid ->
-      receive do {^pid, result} -> result end
+    |> Enum.flat_map(fn pid ->
+      receive do {^pid, chunk_result} -> chunk_result end
     end)
   end
 
   def each(enumerable, fun) do
-    parent = self
+    parent      = self
+    chunk_size  = chunk_size(enumerable)
+
     enumerable
-    |> Enum.map(fn item ->
-      spawn fn ->
-        fun.(item)
-        send(parent, {self, :ok})
-      end
+    |> Enum.chunk(chunk_size, chunk_size, [])
+    |> Enum.map(fn chunk ->
+      spawn fn -> map_chunk(parent, chunk, fun) end
     end)
     |> Enum.map(fn pid ->
-      receive do {^pid, :ok} -> :ok end
+      receive do {^pid, _result} -> :ok end
     end)
     :ok
+  end
+
+  def chunk_size(enumerable) do
+    num_cores = :erlang.system_info(:logical_processors)
+    Enum.max [div(length(enumerable), num_cores), 1]
+  end
+
+  defp map_chunk(parent, chunk, fun) do
+    result = Enum.map chunk, fn item -> fun.(item) end
+    send(parent, {self, result})
   end
 end
