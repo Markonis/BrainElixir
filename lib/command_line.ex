@@ -18,7 +18,7 @@ defmodule CommandLine do
     IO.puts "\n================"
     IO.puts "\nUsage: brain_elixir --command <cmd> --config <config file> --input <input file> --output <output file>"
     IO.puts "\nWhere:"
-    IO.puts " - <cmd>         = classify-image"
+    IO.puts " - <cmd>         = classify-image | train-image-classifier"
     IO.puts " - <config file> = path to your configuration JSON file"
     IO.puts " - <input file>  = path to your input file"
     IO.puts " - <output file> = path to your output file"
@@ -28,7 +28,10 @@ defmodule CommandLine do
   def process(options) do
     json = options[:config] |> File.read!
     case options[:cmd] do
-      "classify-image" -> CommandLine.ImageClassifier.run(json, options)
+      "train-image-classifier" ->
+        CommandLine.ImageClassifierTrainer.run(json, options)
+      "classify-image" ->
+        CommandLine.ImageClassifier.run(json, options)
       _ -> process []
     end
   end
