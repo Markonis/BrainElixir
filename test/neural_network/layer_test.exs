@@ -47,14 +47,8 @@ defmodule NeuralNetwork.LayerTest do
     in_conns = Layer.get_in_conns(second_layer)
 
     expected = [
-      [
-        %NeuralNetwork.Connection{index: 0, value: 0, weight: 0.5},
-        %NeuralNetwork.Connection{index: 1, value: 0, weight: 0.5}
-      ],
-      [
-        %NeuralNetwork.Connection{index: 0, value: 0, weight: 0.5},
-        %NeuralNetwork.Connection{index: 1, value: 0, weight: 0.5}
-      ]
+      [ %{index: 0, weight: 0.5}, %{index: 1, weight: 0.5} ],
+      [ %{index: 0, weight: 0.5}, %{index: 1, weight: 0.5} ]
     ]
 
     assert in_conns == expected
@@ -68,14 +62,8 @@ defmodule NeuralNetwork.LayerTest do
     initial_in_conns = Layer.get_in_conns(second_layer)
 
     expected = [
-      [
-        %NeuralNetwork.Connection{index: 0, value: 1, weight: 0.1},
-        %NeuralNetwork.Connection{index: 1, value: 1, weight: 0.9}
-      ],
-      [
-        %NeuralNetwork.Connection{index: 0, value: 2, weight: 0.2},
-        %NeuralNetwork.Connection{index: 1, value: 2, weight: 0.8}
-      ]
+      [ %{index: 0, weight: 0.1}, %{index: 1, weight: 0.9} ],
+      [ %{index: 0, weight: 0.2}, %{index: 1, weight: 0.8} ]
     ]
 
     Layer.set_in_conns(second_layer, expected)

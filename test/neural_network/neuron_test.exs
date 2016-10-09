@@ -136,10 +136,7 @@ defmodule NeuralNetwork.NeuronTest do
 
     in_conn = Neuron.get_in_conn(state)
 
-    expected = [
-      %Connection{value: 0.5, weight: 0.8, index: 0},
-      %Connection{value: 0.7, weight: 0.2, index: 1}
-    ]
+    expected = [ %{weight: 0.8, index: 0}, %{weight: 0.2, index: 1} ]
 
     assert in_conn == expected
   end
@@ -154,10 +151,7 @@ defmodule NeuralNetwork.NeuronTest do
       %Connection{value: 0.6, weight: 0.2, index: 0}
     ]
 
-    expected = [
-      %Connection{value: 0.6, weight: 0.2, index: 0},
-      %Connection{value: 0.7, weight: 0.8, index: 1}
-    ]
+    expected = [ %{weight: 0.2, index: 0}, %{weight: 0.8, index: 1} ]
 
     in_conn = state
     |> Neuron.set_in_conn(conn_list)

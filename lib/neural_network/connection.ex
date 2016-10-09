@@ -6,7 +6,6 @@ defmodule NeuralNetwork.Connection do
   def from_map(map) do
     %Connection{
       weight: Map.get(map, "weight"),
-      value: Map.get(map, "value"),
       index: Map.get(map, "index")
     }
   end

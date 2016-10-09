@@ -109,6 +109,7 @@ defmodule NeuralNetwork.Neuron do
     state.in_conn
     |> Map.values
     |> Enum.sort_by(fn conn -> conn.index end)
+    |> Enum.map(fn conn -> %{weight: conn.weight, index: conn.index} end)
   end
 
   def set_in_conn(state, conn_list) do
