@@ -3,20 +3,24 @@ defmodule CommandLine.ImageClassifierTrainer do
 
   def run(json, options) do
     configuration = Poison.decode! json
-    network = create_network(configuration)
+    network = create_network(configuration, options)
 
     configuration
     |> load_images
-    |> prepare_inputs
+    |> prepare_inputs(configuration)
     |> create_input_output_pairs
-    |> train(network, configuration)
+    |> train(network, configuration, options)
     |> write_output(options)
   end
 
-  def create_network(configuration) do
-    configuration
-    |> Map.get("layers")
-    |> NeuralNetwork.create
+  def create_network(configuration, options) do
+    if options[:input] != nil do
+      File.read!(options[:input]) |> NeuralNetwork.deserialize
+    else
+      configuration
+      |> Map.get("layers")
+      |> NeuralNetwork.create
+    end
   end
 
   def load_images(configuration) do
@@ -25,12 +29,20 @@ defmodule CommandLine.ImageClassifierTrainer do
     |> Enum.map(&ImageProcessor.load/1)
   end
 
-  def prepare_inputs(images) do
+  def prepare_inputs(images, configuration) do
     images
     |> Enum.map(fn image -> image.pixels end)
     |> Enum.map(&List.flatten/1)
-    |> Enum.map(&ImageProcessor.flatten_pixels/1)
+    |> Enum.map(fn pixels -> process_pixels(pixels, configuration) end)
     |> Enum.map(&ImageProcessor.normalize_values/1)
+  end
+
+  def process_pixels(pixels, configuration) do
+    if Map.get(configuration, "mode") == "grayscale" do
+      ImageProcessor.to_grayscale pixels
+    else
+      ImageProcessor.flatten_pixels pixels
+    end
   end
 
   def create_input_output_pairs(inputs) do
@@ -42,7 +54,7 @@ defmodule CommandLine.ImageClassifierTrainer do
     end)
   end
 
-  def train(input_output_pairs, network, configuration) do
+  def train(input_output_pairs, network, configuration, options) do
     iterations = Map.get configuration, "iterations"
 
     Enum.each 1..iterations, fn step ->
@@ -50,6 +62,7 @@ defmodule CommandLine.ImageClassifierTrainer do
         NeuralNetwork.train(network, inputs, target_outputs)
       end
       Logger.info("Iteration: #{step}")
+      write_output(network, options)
     end
 
     network
