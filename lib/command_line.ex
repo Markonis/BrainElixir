@@ -28,6 +28,10 @@ defmodule CommandLine do
   def process(options) do
     json = options[:config] |> File.read!
     case options[:cmd] do
+      "train-classifier" ->
+        CommandLine.GenericClassifierTrainer.run(json, options)
+      "classify" ->
+        CommandLine.GenericClassifier.run(json, options)
       "train-image-classifier" ->
         CommandLine.ImageClassifierTrainer.run(json, options)
       "classify-image" ->
