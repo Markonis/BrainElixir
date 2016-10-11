@@ -1,23 +1,18 @@
 defmodule CommandLine.ImageClassifier do
+
+  alias CommandLine.ClassifierHelper
+
   def run(json, options) do
     options[:input]
-    |> prepare
-    |> process(json)
-    |> output
+    |> prepare_inputs
+    |> ClassifierHelper.process(json)
+    |> ClassifierHelper.write_output
   end
 
-  def prepare(path) do
+  def prepare_inputs(path) do
     ImageProcessor.load(path).pixels
     |> List.flatten
     |> ImageProcessor.to_grayscale
     |> ImageProcessor.normalize_values
-  end
-
-  def process(inputs, json) do
-    json |> NeuralNetwork.deserialize |> NeuralNetwork.process(inputs)
-  end
-
-  def output(result) do
-    %{ result: result } |> Poison.encode! |> IO.puts
   end
 end
