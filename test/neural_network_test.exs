@@ -31,7 +31,7 @@ defmodule NeuralNetworkTest do
     |> NeuralNetwork.get_outputs
     |> Enum.at(0)
 
-    assert_in_delta output, 0.6750375273768237, 0.001
+    assert_in_delta output, 0.5, 0.001
   end
 
   test "prop_backward" do

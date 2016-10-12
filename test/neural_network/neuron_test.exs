@@ -79,20 +79,6 @@ defmodule NeuralNetwork.NeuronTest do
     assert actual == expected
   end
 
-  test "reset_weights" do
-    state = %Neuron{in_conn: %{
-      1 => %Connection{value: 0.7, weight: 0},
-      2 => %Connection{value: 0.5, weight: 0}}}
-
-    new_state = Neuron.reset_weights(state)
-
-    expected_in_conn = %{
-      1 => %Connection{value: 0.7, weight: 0.5},
-      2 => %Connection{value: 0.5, weight: 0.5}}
-
-    assert new_state.in_conn == expected_in_conn
-  end
-
   test "prop_backward" do
     source_pid = Neuron.create
     dest_pid = Neuron.create
@@ -100,7 +86,6 @@ defmodule NeuralNetwork.NeuronTest do
     GenServer.call(source_pid, {:connect_to, dest_pid})
     GenServer.call(source_pid, {:set_output, 1})
     GenServer.call(source_pid, :prop_forward)
-    GenServer.call(dest_pid, :reset_weights)
     GenServer.call(dest_pid, :update_output)
 
     GenServer.call(dest_pid, {:prop_backward, 0.8})
@@ -117,7 +102,6 @@ defmodule NeuralNetwork.NeuronTest do
     GenServer.call(source_pid, {:connect_to, dest_pid})
     GenServer.call(source_pid, {:set_output, 1})
     GenServer.call(source_pid, :prop_forward)
-    GenServer.call(dest_pid, :reset_weights)
     GenServer.call(dest_pid, :update_output)
 
     GenServer.call(dest_pid, {:prop_backward, 0.8})

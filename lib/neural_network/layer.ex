@@ -13,13 +13,6 @@ defmodule NeuralNetwork.Layer do
     for src_pid <- src.neurons, dest_pid <- dest.neurons do
       GenServer.call(src_pid, {:connect_to, dest_pid})
     end
-    reset_weights(dest)
-  end
-
-  def reset_weights(layer) do
-    Parallel.each layer.neurons, fn neuron_pid ->
-      GenServer.call(neuron_pid, :reset_weights)
-    end
   end
 
   def set_outputs(layer, outputs) do

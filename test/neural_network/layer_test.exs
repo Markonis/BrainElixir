@@ -47,8 +47,8 @@ defmodule NeuralNetwork.LayerTest do
     in_conns = Layer.get_in_conns(second_layer)
 
     expected = [
-      [ %{index: 0, weight: 0.5}, %{index: 1, weight: 0.5} ],
-      [ %{index: 0, weight: 0.5}, %{index: 1, weight: 0.5} ]
+      [ %{index: 0, weight: 0}, %{index: 1, weight: 0} ],
+      [ %{index: 0, weight: 0}, %{index: 1, weight: 0} ]
     ]
 
     assert in_conns == expected
