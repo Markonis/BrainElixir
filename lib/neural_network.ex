@@ -80,6 +80,12 @@ defmodule NeuralNetwork do
     network
   end
 
+  def get_neuron_state(network, layer, neuron) do
+    network.layers
+    |> Enum.at(layer) |> Map.get(:neurons)
+    |> Enum.at(neuron) |> GenServer.call(:get_state)
+  end
+
   def process(network, inputs) do
     NeuralNetwork.set_inputs(network, inputs)
     |> NeuralNetwork.prop_forward
