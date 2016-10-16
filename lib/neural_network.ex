@@ -45,10 +45,16 @@ defmodule NeuralNetwork do
   end
 
   def prop_backward(network, target_outputs) do
+    # Propagete output layer backwards
+    List.last(network.layers)
+    |> Layer.prop_backward(target_outputs)
+
+    # Propagate hidden layers backwards
     Enum.reverse(network.layers)
-    |> Enum.each(fn layer ->
-      Layer.prop_backward(layer, target_outputs)
-    end)
+    |> Enum.drop(1)
+    |> Enum.each(&Layer.prop_backward/1)
+
+    # Return the network for chaining operations
     network
   end
 
