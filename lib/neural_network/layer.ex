@@ -42,26 +42,26 @@ defmodule NeuralNetwork.Layer do
 
   def prop_backward(layer, target_outputs) do
     List.zip([layer.neurons, target_outputs])
-    |> Enum.each(fn {neuron_pid, target_output} ->
+    |> Parallel.each(fn {neuron_pid, target_output} ->
       GenServer.call(neuron_pid, {:prop_backward, target_output})
     end)
   end
 
   def prop_backward(layer) do
-    Enum.each layer.neurons, fn neuron_pid ->
+    Parallel.each layer.neurons, fn neuron_pid ->
       GenServer.call(neuron_pid, {:prop_backward, nil})
     end
   end
 
   def adjust_weights(layer, target_outputs) do
     List.zip([layer.neurons, target_outputs])
-    |> Enum.each(fn {neuron_pid, target_output} ->
+    |> Parallel.each(fn {neuron_pid, target_output} ->
       GenServer.call(neuron_pid, {:adjust_weights, target_output})
     end)
   end
 
   def adjust_weights(layer) do
-    Enum.each layer.neurons, fn neuron_pid ->
+    Parallel.each layer.neurons, fn neuron_pid ->
       GenServer.call(neuron_pid, {:adjust_weights, nil})
     end
   end
