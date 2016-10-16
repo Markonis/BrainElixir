@@ -91,5 +91,15 @@ defmodule NeuralNetwork do
     |> NeuralNetwork.prop_forward
     |> NeuralNetwork.prop_backward(target_outputs)
     |> NeuralNetwork.adjust_weights(target_outputs)
+    calculate_error(network, target_outputs)
+  end
+
+  def calculate_error(network, target_outputs) do
+    outputs = NeuralNetwork.get_outputs(network)
+    List.zip([outputs, target_outputs])
+    |> Enum.map(fn {output, target_output} ->
+      :math.pow(target_output - output, 2)
+    end)
+    |> Enum.sum
   end
 end
