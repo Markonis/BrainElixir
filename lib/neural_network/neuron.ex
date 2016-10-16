@@ -33,10 +33,14 @@ defmodule NeuralNetwork.Neuron do
   def update_input(state, neuron_pid, value) do
     existing_conn = Map.get(state.in_conn, neuron_pid)
     new_conn = case existing_conn do
-      nil -> %Connection{value: value, index: new_in_conn_index(state)}
+      nil -> %Connection{value: value, index: new_in_conn_index(state), weight: random_weight}
       %Connection{} -> %{existing_conn | value: value}
     end
     %{state | in_conn: Map.put(state.in_conn, neuron_pid, new_conn)}
+  end
+
+  def random_weight do
+    :rand.uniform - 0.5
   end
 
   def new_in_conn_index(state) do
