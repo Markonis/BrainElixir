@@ -3,7 +3,7 @@ defmodule CommandLine.TrainerHelper do
 
   def create_network(configuration, options) do
     if options[:input] != nil do
-      File.read!(options[:input]) |> NeuralNetwork.deserialize
+      File.read!(options[:input]) |> NeuralNetwork.Serializer.deserialize
     else
       configuration
       |> Map.get("layers")
@@ -21,7 +21,7 @@ defmodule CommandLine.TrainerHelper do
   end
 
   def write_output(network, options) do
-    json = NeuralNetwork.serialize network
+    json = NeuralNetwork.Serializer.serialize network
     File.write(options[:output], json)
   end
 
