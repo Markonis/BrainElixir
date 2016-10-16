@@ -47,7 +47,7 @@ defmodule NeuralNetwork.Backpropagation do
     total_output_err_deriv * input_output_deriv * input_value
   end
 
-  def weight_adjustment(neuron_state, input_neuron_pid, target_output, learning_factor \\ -0.3) do
+  def weight_adjustment(neuron_state, input_neuron_pid, target_output, learning_factor \\ -0.1) do
     weight_err_deriv(neuron_state, input_neuron_pid, target_output) * learning_factor
   end
 end
