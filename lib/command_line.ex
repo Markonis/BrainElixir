@@ -18,7 +18,10 @@ defmodule CommandLine do
     IO.puts "\n================"
     IO.puts "\nUsage: brain_elixir --command <cmd> --config <config file> --input <input file> --output <output file>"
     IO.puts "\nWhere:"
-    IO.puts " - <cmd>         = train-classifier | classify | train-image-classifier | classify-image"
+    IO.puts " - <cmd> = "
+    IO.puts " -   | train-classifier | classify"
+    IO.puts " -   | train-composite-classifier | composite-classify"
+    IO.puts " -   | train-image-classifier | classify-image"
     IO.puts " - <config file> = path to your configuration JSON file"
     IO.puts " - <input file>  = path to your input file"
     IO.puts " - <output file> = path to your output file"
@@ -32,6 +35,10 @@ defmodule CommandLine do
         CommandLine.GenericClassifierTrainer.run(json, options)
       "classify" ->
         CommandLine.GenericClassifier.run(json, options)
+      "train-composite-classifier" ->
+        CommandLine.CompositeClassifierTrainer.run(json, options)
+      "composite-classify" ->
+        CommandLine.CompositeClassifier.run(json, options)
       "train-image-classifier" ->
         CommandLine.ImageClassifierTrainer.run(json, options)
       "classify-image" ->
