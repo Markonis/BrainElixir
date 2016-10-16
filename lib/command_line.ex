@@ -1,6 +1,6 @@
 defmodule CommandLine do
   def main(args) do
-    args |> parse_arguments |> process
+    args |> parse_arguments |> process |> write_output
   end
 
   def parse_arguments(args) do
@@ -38,5 +38,9 @@ defmodule CommandLine do
         CommandLine.ImageClassifier.run(json, options)
       _ -> process []
     end
+  end
+
+  def write_output(result) do
+    %{ result: result } |> Poison.encode! |> IO.puts
   end
 end

@@ -5,7 +5,6 @@ defmodule CommandLine.GenericClassifier do
     options[:input]
     |> prepare_inputs
     |> ClassifierHelper.process(json)
-    |> ClassifierHelper.write_output
   end
 
   def prepare_inputs(json) do

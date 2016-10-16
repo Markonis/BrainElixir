@@ -9,7 +9,8 @@ defmodule CommandLine.GenericClassifierTrainer do
     configuration
     |> load_input_output_pairs
     |> TrainerHelper.train(network, configuration, options)
-    |> TrainerHelper.write_output(options)
+
+    :ok
   end
 
   def load_input_output_pairs(configuration) do

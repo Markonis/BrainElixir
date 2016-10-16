@@ -6,7 +6,6 @@ defmodule CommandLine.ImageClassifier do
     options[:input]
     |> prepare_inputs
     |> ClassifierHelper.process(json)
-    |> ClassifierHelper.write_output
   end
 
   def prepare_inputs(path) do

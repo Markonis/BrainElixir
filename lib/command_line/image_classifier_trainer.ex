@@ -11,7 +11,8 @@ defmodule CommandLine.ImageClassifierTrainer do
     |> prepare_inputs(configuration)
     |> TrainerHelper.create_input_output_pairs
     |> TrainerHelper.train(network, configuration, options)
-    |> TrainerHelper.write_output(options)
+
+    :ok
   end
 
   def load_images(configuration) do
