@@ -73,12 +73,8 @@ defmodule NeuralNetwork.Neuron do
 
   def prop_backward(state, target_output) do
     err_deriv = Backpropagation.backward_output_err_deriv(state, target_output)
-
-    Enum.each state.in_conn, fn {neuron_pid, _conn} ->
-      input_weight = Map.get(state.in_conn, neuron_pid).weight
-
-      weighted_err_derriv = err_deriv * input_weight
-
+    Enum.each state.in_conn, fn {neuron_pid, conn} ->
+      weighted_err_derriv = err_deriv * conn.weight
       GenServer.call(neuron_pid, {:update_forward_err_deriv, self, weighted_err_derriv})
     end
     state
