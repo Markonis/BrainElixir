@@ -14,12 +14,12 @@ defmodule NeuralNetwork.NeuronTest do
     assert new_state == expected_state
   end
 
-  test "update_input_conn" do
+  test "update_input" do
     state = %Neuron{}
 
     new_state = state
-    |> Neuron.update_input_conn(123, 1)
-    |> Neuron.update_input_conn(345, 1)
+    |> Neuron.update_input(123, 1)
+    |> Neuron.update_input(345, 1)
 
     new_in_conn = new_state.in_conn
 

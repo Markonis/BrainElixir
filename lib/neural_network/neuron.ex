@@ -31,10 +31,6 @@ defmodule NeuralNetwork.Neuron do
   end
 
   def update_input(state, neuron_pid, value) do
-    update_input_conn(state, neuron_pid, value)
-  end
-
-  def update_input_conn(state, neuron_pid, value) do
     existing_conn = Map.get(state.in_conn, neuron_pid)
     new_conn = case existing_conn do
       nil -> %Connection{value: value, index: new_in_conn_index(state)}
