@@ -55,9 +55,15 @@ defmodule NeuralNetwork.Layer do
 
   def adjust_weights(layer, target_outputs) do
     List.zip([layer.neurons, target_outputs])
-    |> Parallel.each(fn {neuron_pid, target_output} ->
+    |> Enum.each(fn {neuron_pid, target_output} ->
       GenServer.call(neuron_pid, {:adjust_weights, target_output})
     end)
+  end
+
+  def adjust_weights(layer) do
+    Enum.each layer.neurons, fn neuron_pid ->
+      GenServer.call(neuron_pid, {:adjust_weights, nil})
+    end
   end
 
   def get_in_conns(layer) do

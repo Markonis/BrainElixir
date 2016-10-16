@@ -59,10 +59,16 @@ defmodule NeuralNetwork do
   end
 
   def adjust_weights(network, target_outputs) do
+    # Adjust weights of the output layer
+    List.last(network.layers)
+    |> Layer.adjust_weights(target_outputs)
+
+    # Adjust weights of the hidden layers
     Enum.reverse(network.layers)
-    |> Enum.each(fn layer ->
-      Layer.adjust_weights(layer, target_outputs)
-    end)
+    |> Enum.drop(1)
+    |> Enum.each(&Layer.adjust_weights/1)
+
+    # Return the network for chaining operations
     network
   end
 
