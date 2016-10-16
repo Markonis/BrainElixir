@@ -29,13 +29,21 @@ defmodule CommandLine.TrainerHelper do
     iterations = Map.get configuration, "iterations"
 
     Enum.each 1..iterations, fn step ->
-      Enum.each input_output_pairs, fn {inputs, target_outputs} ->
+      error = input_output_pairs
+      |> Enum.map(fn {inputs, target_outputs} ->
         NeuralNetwork.train(network, inputs, target_outputs)
-      end
-      Logger.info("Iteration: #{step}")
+      end)
+      |> Enum.sum
+
+      if rem(step, 50) == 0, do: log(step, error)
+
       write_output(network, options)
     end
 
     network
+  end
+
+  def log(step, error) do
+    Logger.info("iteration: #{step}, error: #{error}")
   end
 end
