@@ -81,15 +81,24 @@ defmodule NeuralNetwork.Neuron do
   end
 
   def adjust_weights(state, target_output) do
+    adj = calculate_weight_adjustments(state, target_output)
+    update_weights(state, adj)
+  end
+
+  def calculate_weight_adjustments(state, target_output) do
+    Enum.map(state.in_conn, fn {input_neuron_pid, _conn} ->
+      adj = Backpropagation.weight_adjustment(state, input_neuron_pid, target_output)
+      {input_neuron_pid, adj}
+    end)
+    |> Enum.into(%{})
+  end
+
+  def update_weights(state, weight_adjustments) do
     in_conn = Enum.reduce state.in_conn, %{}, fn {input_neuron_pid, conn}, acc ->
-      weight_adjustment = Backpropagation.weight_adjustment(
-        state, input_neuron_pid, target_output)
-
+      weight_adjustment = Map.get(weight_adjustments, input_neuron_pid)
       weight = conn.weight + weight_adjustment
-
       Map.put(acc, input_neuron_pid, %{conn | weight: weight})
     end
-
     %{state | in_conn: in_conn}
   end
 
