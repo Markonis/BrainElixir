@@ -1,17 +1,12 @@
 defmodule CommandLine.ImageClassifier do
 
   alias CommandLine.ClassifierHelper
+  alias CommandLine.ImageHelper
 
   def run(json, options) do
     options[:input]
-    |> prepare_inputs
+    |> Poison.decode!
+    |> ImageHelper.prepare_inputs
     |> ClassifierHelper.process(json)
-  end
-
-  def prepare_inputs(path) do
-    ImageProcessor.load(path).pixels
-    |> List.flatten
-    |> ImageProcessor.to_grayscale
-    |> ImageProcessor.normalize_values
   end
 end

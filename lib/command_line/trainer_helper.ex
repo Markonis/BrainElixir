@@ -35,7 +35,7 @@ defmodule CommandLine.TrainerHelper do
       end)
       |> Enum.sum
 
-      if rem(step, 500) == 0, do: log(step, error)
+      if rem(step, 10) == 0, do: log(step, error)
 
       write_output(network, options)
     end
