@@ -18,7 +18,7 @@ defmodule CommandLine do
     IO.puts "\n================"
     IO.puts "\nUsage: brain_elixir --command <cmd> --config <config file> --input <input file> --output <output file>"
     IO.puts "\nWhere:"
-    IO.puts " - <cmd>         = classify-image | train-image-classifier"
+    IO.puts " - <cmd>         = train-classifier | classify | train-image-classifier | classify-image"
     IO.puts " - <config file> = path to your configuration JSON file"
     IO.puts " - <input file>  = path to your input file"
     IO.puts " - <output file> = path to your output file"
