@@ -43,6 +43,17 @@ defmodule CommandLine.TrainerHelper do
     network
   end
 
+  def validate(input_output_pairs, network) do
+    input_output_pairs
+    |> Enum.map(fn {inputs, target_outputs} ->
+      network
+      |> NeuralNetwork.set_inputs(inputs)
+      |> NeuralNetwork.prop_forward
+      |> NeuralNetwork.calculate_error(target_outputs)
+    end)
+    |> Enum.sum
+  end
+
   def log(step, error) do
     Logger.info("iteration: #{step}, error: #{error}")
   end
