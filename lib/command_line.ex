@@ -22,6 +22,7 @@ defmodule CommandLine do
     IO.puts " -   | train-classifier | classify"
     IO.puts " -   | train-composite-classifier | composite-classify"
     IO.puts " -   | train-image-classifier | classify-image"
+    IO.puts " -   | train-autoencoder"
     IO.puts " - <config file> = path to your configuration JSON file"
     IO.puts " - <input file>  = path to your input file"
     IO.puts " - <output file> = path to your output file"
@@ -45,6 +46,8 @@ defmodule CommandLine do
         CommandLine.ImageClassifierTrainer.run(json, options)
       "classify-image" ->
         CommandLine.ImageClassifier.run(json, options)
+      "train-autoencoder" ->
+        CommandLine.AutoencoderTrainer.run(json, options)
       _ -> process []
     end
   end
