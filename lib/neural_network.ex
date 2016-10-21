@@ -116,7 +116,7 @@ defmodule NeuralNetwork do
     outputs = NeuralNetwork.get_outputs(network)
     List.zip([outputs, target_outputs])
     |> Enum.map(fn {output, target_output} ->
-      :math.pow(target_output - output, 2)
+      abs(target_output - output)
     end)
     |> Enum.sum
   end
