@@ -3,7 +3,7 @@ defmodule CommandLine.CompositeClassifierTrainer do
   alias CommandLine.TrainerHelper
   alias CommandLine.ImageHelper
 
-  def run(json, options) do
+  def train(json, options) do
     configuration = Poison.decode! json
     network = TrainerHelper.create_network(configuration, options)
 
@@ -14,6 +14,17 @@ defmodule CommandLine.CompositeClassifierTrainer do
     |> TrainerHelper.train(network, configuration, options)
 
     :ok
+  end
+
+  def validate(json, options) do
+    configuration = Poison.decode! json
+    network = TrainerHelper.create_network(configuration, options)
+
+    configuration
+    |> create_preprocessor
+    |> preprocess_inputs(configuration)
+    |> TrainerHelper.create_input_output_pairs
+    |> TrainerHelper.validate(network)
   end
 
   def create_preprocessor(configuration) do
