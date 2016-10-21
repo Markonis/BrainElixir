@@ -27,6 +27,7 @@ defmodule CommandLine.TrainerHelper do
 
   def train(input_output_pairs, network, configuration, options) do
     iterations = Map.get configuration, "iterations"
+    log_step = Map.get configuration, "log", 10
 
     Enum.each 1..iterations, fn step ->
       error = input_output_pairs
@@ -35,8 +36,7 @@ defmodule CommandLine.TrainerHelper do
       end)
       |> Enum.sum
 
-      if rem(step, 10) == 0, do: log(step, error)
-
+      if rem(step, log_step) == 0, do: log(step, error)
       write_output(network, options)
     end
 
