@@ -36,9 +36,11 @@ defmodule CommandLine do
       "classify" ->
         CommandLine.GenericClassifier.run(json, options)
       "train-composite-classifier" ->
-        CommandLine.CompositeClassifierTrainer.run(json, options)
+        CommandLine.CompositeClassifierTrainer.train(json, options)
       "composite-classify" ->
         CommandLine.CompositeClassifier.run(json, options)
+      "composite-validate" ->
+        CommandLine.CompositeClassifierTrainer.validate(json, options)
       "train-image-classifier" ->
         CommandLine.ImageClassifierTrainer.run(json, options)
       "classify-image" ->
